@@ -1,57 +1,60 @@
 library(combinat)
 cal24 <- function(numbers){
-    operator <- c("+","-","*","/")
-    enum.op <- as.matrix(expand.grid(c(1:4),c(1:4),c(1:4)))
-    m <- nrow(enum.op)
-    
-    comb.num <- as.matrix(as.data.frame(permn(numbers)))
-    comb.num <- t(unique(t(comb.num)))
-    n <- ncol(comb.num)
-
-    formulas <- list()
-    for(i in 1:n){
-       num <- comb.num[,i]
-       for(i in 1:m){
-           select.op <- operator[enum.op[i,]]
-           Formula <- paste("(","(",num[1],select.op[1],num[2],")",select.op[2],num[3],")",select.op[3],num[4])
-           value <- eval(parse(text=Formula))
-           if(is.finite(value)){
-               if(value==24){
-                   formulas <- c(formulas,Formula)    
-               }
-           }
-           else{
-               formulas <- formulas
-           }
-       }
+  numbers <- c(1:4)
+  operator <- c("+","-","*","/")
+  # enum.op <- as.matrix(expand.grid(c(1:4),c(1:4),c(1:4)))
+  m <- nrow(enum.op)
+  
+  comb.num <- as.matrix(as.data.frame(permn(numbers)))
+  comb.num <- t(unique(t(comb.num)))
+  n <- ncol(comb.num)
+  
+  formulas <- list()
+  for(i in 1:n){
+    num <- comb.num[,i]
+    for(j in 1:m){
+      select.op <- operator[enum.op[j,]]
+      # if(select.op == )
+      Formula <- paste("(","(",num[1],select.op[1],num[2],")",select.op[2],num[3],")",select.op[3],num[4])
+      value <- eval(parse(text=Formula))
+      if(is.finite(value)){
+        if(value==24){
+          formulas <- c(formulas,Formula)    
+        }
+      }
+      else{
+        formulas <- formulas
+      }
     }
-        
-    enum.op1 <- as.matrix(expand.grid(c(1:4),c(1:4),c(1:4)))
-    m1 <- nrow(enum.op1)
-    for(i in 1:n){
-       num <- comb.num[,i]
-       for(i in 1:m1){
-           select.op <- operator[enum.op1[i,]]
-           Formula <- paste("(",num[1],select.op[1],num[2],")",select.op[2],"(",num[3],select.op[3],num[4],")")
-           value <- eval(parse(text=Formula))
-           if(is.finite(value)){
-               if(value==24){
-                   formulas <- c(formulas,Formula)    
-               }               
-           }
-           else{
-               formulas <- formulas
-           }
-       }
-    }        
-            
-    if(length(formulas)==0){
-        sol=FALSE
+  }
+  
+  enum.op1 <- as.matrix(expand.grid(c(1:4),c(1:4),c(1:4)))
+  m1 <- nrow(enum.op1)
+  for(i in 1:n){
+    num <- comb.num[,i]
+    for(j in 1:m1){
+      select.op <- operator[enum.op1[j,]]
+      Formula <- paste("(",num[1],select.op[1],num[2],")",select.op[2],"(",num[3],select.op[3],num[4],")")
+      value <- eval(parse(text=Formula))
+      if(is.finite(value)){
+        if(value==24){
+          formulas <- c(formulas,Formula)    
+        }               
+      }
+      else{
+        formulas <- formulas
+      }
     }
-    else{
-        sol=TRUE
-    }
-    z <- list(Formulas=formulas,is.solution=sol)
+  }        
+  
+  if(length(formulas)==0){
+    sol=FALSE
+  }
+  else{
+    sol=TRUE
+  }
+  z <- list(Formulas=formulas,is.solution=sol)
+  
 }
 
 
