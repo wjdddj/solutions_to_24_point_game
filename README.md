@@ -7,3 +7,4 @@ To find all possible solutions for a given 4 numbers, use cal24_simple() functio
 Function cal24_for_all() enumerates all possible solutions for all combinations of 4 numbers.
 Function to_summary() summarizes a few statistics of the solutions.
 
+
